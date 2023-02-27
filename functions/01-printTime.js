@@ -49,7 +49,6 @@ function printTime( hour, minute ) {
     hour += 1;
   }
   if ( minute < 8 ) roundedMinute = 0;
-  if ( minute > 52 ) roundedMinute = 0;
   if ( minute > 7  && minute < 24 ) roundedMinute = 15;
   if ( minute > 23 && minute < 38 ) roundedMinute = 30;
   if ( minute > 37 && minute < 53 ) roundedMinute = 45;
