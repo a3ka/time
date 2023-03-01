@@ -1,3 +1,6 @@
+const test = require('node:test');
+const assert = require('node:assert');
+
 /**
  * Write a function printTime
  * 0 hour - midnight
@@ -54,7 +57,7 @@ function printTime( hour, minute ) {
   if ( minute > 37 && minute < 53 ) roundedMinute = 45;
 
   //result output
-  if ( hour === 24 && roundedMinute === 0 ) return ( 'midnight' );
+  if ( hour === 24 || hour === 0 && roundedMinute === 0 ) return ( 'midnight' );
   if ( hour === 12 && roundedMinute === 0 ) return ( 'noon' );
   if ( roundedMinute === 0 ) return ( hours[hour] + ' o\'clock' );
   if ( roundedMinute === 15 ) return ( 'quarter past ' + hours[hour] );
@@ -65,11 +68,15 @@ function printTime( hour, minute ) {
 }
 
 // Tests:
-console.assert(printTime(9, 0) === 'nine o\'clock');
-console.assert(printTime(9, 15) === 'quarter past nine');
-console.assert(printTime(9, 30) === 'half past nine');
-console.assert(printTime(9, 45) === 'quarter to ten');
-console.assert(printTime(21, 45) === 'quarter to ten');
-console.assert(printTime(0, 7) === 'midnight');
-console.assert(printTime(11, 53) === 'noon');
-console.assert(printTime(12, 8) === 'quarter past twelve');
+test('printTime', () => {
+  assert.strictEqual(printTime(9, 0), 'nine o\'clock');
+  assert.strictEqual(printTime(9, 30), 'half past nine');
+  assert.strictEqual(printTime(11, 53), 'noon');
+  assert.strictEqual(printTime(12, 3), 'noon');
+  assert.strictEqual(printTime(9, 15), 'quarter past nine');
+  assert.strictEqual(printTime(12, 8), 'quarter past twelve');
+  assert.strictEqual(printTime(21, 45), 'quarter to ten');
+  assert.strictEqual(printTime(23, 52), 'quarter to twelve');
+  assert.strictEqual(printTime(23, 59), 'midnight');
+  assert.strictEqual(printTime(0, 7), 'midnight');
+});
